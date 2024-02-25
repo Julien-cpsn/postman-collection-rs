@@ -436,7 +436,7 @@ pub enum Language {
     #[serde(rename = "json")]
     Json,
 
-    #[serde(rename = "Text")]
+    #[serde(rename = "text")]
     Text,
 
     #[serde(rename = "xml")]
