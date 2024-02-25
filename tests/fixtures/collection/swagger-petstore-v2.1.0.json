@@ -25,7 +25,12 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "Pet object that needs to be added to the store"
+							"raw": "Pet object that needs to be added to the store",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "https://petstore.swagger.io/v2/pet",

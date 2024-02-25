@@ -2,9 +2,8 @@ use std::{fs::File, io::Read, path::Path};
 
 pub use errors::{Result, ResultExt};
 use serde::{Deserialize, Serialize};
+use crate::v2_1_0::PostmanCollection_v2_1_0;
 
-pub mod v1_0_0;
-pub mod v2_0_0;
 pub mod v2_1_0;
 
 const MINIMUM_POSTMAN_COLLECTION_VERSION: &str = ">= 1.0.0";
@@ -32,35 +31,8 @@ pub mod errors {
     }
 }
 
-/// Supported versions of Postman Collection.
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-#[serde(untagged)]
-pub enum PostmanCollection {
-    /// Version 1.0.0 of the Postman Collection specification.
-    ///
-    /// Refer to the official
-    /// [specification](https://schema.getpostman.com/collection/json/v1.0.0/draft-07/docs/index.html)
-    /// for more information.
-    #[allow(non_camel_case_types)]
-    V1_0_0(v1_0_0::Spec),
-    /// Version 1.0.0 of the Postman Collection specification.
-    ///
-    /// Refer to the official
-    /// [specification](https://schema.getpostman.com/collection/json/v2.0.0/draft-07/docs/index.html)
-    /// for more information.
-    #[allow(non_camel_case_types)]
-    V2_0_0(v2_0_0::Spec),
-    /// Version 1.0.0 of the Postman Collection specification.
-    ///
-    /// Refer to the official
-    /// [specification](https://schema.getpostman.com/collection/json/v2.1.0/draft-07/docs/index.html)
-    /// for more information.
-    #[allow(non_camel_case_types)]
-    V2_1_0(v2_1_0::Spec),
-}
-
 /// Deserialize a Postman Collection from a path
-pub fn from_path<P>(path: P) -> errors::Result<PostmanCollection>
+pub fn from_path<P>(path: P) -> errors::Result<PostmanCollection_v2_1_0>
 where
     P: AsRef<Path>,
 {
@@ -68,20 +40,20 @@ where
 }
 
 /// Deserialize a Postman Collection from type which implements Read
-pub fn from_reader<R>(read: R) -> errors::Result<PostmanCollection>
+pub fn from_reader<R>(read: R) -> errors::Result<PostmanCollection_v2_1_0>
 where
     R: Read,
 {
-    Ok(serde_yaml::from_reader::<R, PostmanCollection>(read)?)
+    Ok(serde_yaml::from_reader::<R, PostmanCollection_v2_1_0>(read)?)
 }
 
 /// Serialize Postman Collection spec to a YAML string
-pub fn to_yaml(spec: &PostmanCollection) -> errors::Result<String> {
+pub fn to_yaml(spec: &PostmanCollection_v2_1_0) -> errors::Result<String> {
     Ok(serde_yaml::to_string(spec)?)
 }
 
 /// Serialize Postman Collection spec to JSON string
-pub fn to_json(spec: &PostmanCollection) -> errors::Result<String> {
+pub fn to_json(spec: &PostmanCollection_v2_1_0) -> errors::Result<String> {
     Ok(serde_json::to_string_pretty(spec)?)
 }
 
@@ -152,6 +124,10 @@ mod tests {
 
         // Parse the input file
         let parsed_spec = from_path(&input_file).unwrap();
+
+        println!("{}", input_file.file_name().unwrap().to_str().unwrap());
+        dbg!(&parsed_spec);
+
         // Convert to serde_json::Value
         let parsed_spec_json: serde_json::Value = serde_json::to_value(parsed_spec).unwrap();
         // Convert to a JSON string
@@ -198,15 +174,14 @@ mod tests {
                 .collect();
         let mut invalid_diffs = Vec::new();
 
-        for entry in glob("/tests/fixtures/collection/*.json").expect("Failed to read glob pattern")
+        for entry in glob("./tests/fixtures/collection/*.json").expect("Failed to read glob pattern")
         {
             let entry = entry.unwrap();
             let path = entry.as_path();
 
             println!("Testing if {:?} is deserializable", path);
 
-            let (api_filename, parsed_spec_json_str, spec_json_str) =
-                compare_spec_through_json(path, &save_path_base);
+            let (api_filename, parsed_spec_json_str, spec_json_str) = compare_spec_through_json(path, &save_path_base);
 
             if parsed_spec_json_str != spec_json_str {
                 invalid_diffs.push((api_filename, parsed_spec_json_str, spec_json_str));

@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Default)]
-pub struct Spec {
+#[allow(non_camel_case_types)]
+pub struct PostmanCollection_v2_1_0 {
     #[serde(rename = "auth")]
     pub auth: Option<Auth>,
 

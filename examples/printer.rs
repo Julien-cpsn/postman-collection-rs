@@ -1,23 +1,10 @@
 use std::io::Write;
 
-use postman_collection::PostmanCollection;
-
 fn main() {
     if let Some(path) = std::env::args().nth(1) {
         match postman_collection::from_path(path) {
-            Ok(collection) => {
-                match collection {
-                    PostmanCollection::V1_0_0(spec) => {
-                        println!("Found v1.0.0 collection with the name: {}", spec.name);
-                    }
-                    PostmanCollection::V2_0_0(spec) => {
-                        println!("Found v2.0.0 collection with the name: {}", spec.info.name);
-                    }
-                    PostmanCollection::V2_1_0(spec) => {
-                        println!("Found v2.1.0 collection with the name: {}", spec.info.name);
-                    }
-                }
-                //println!("{}", postman_collection::to_json(&spec).unwrap());
+            Ok(spec) => {
+                println!("Found v2.1.0 collection with the name: {}", spec.info.name);
             }
             Err(e) => {
                 let stderr = &mut ::std::io::stderr();
