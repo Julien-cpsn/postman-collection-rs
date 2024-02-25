@@ -400,6 +400,9 @@ pub struct Body {
     #[serde(rename = "formdata")]
     pub formdata: Option<Vec<FormParameter>>,
 
+    #[serde(rename = "options")]
+    pub options: Option<BodyOptions>,
+
     /// Postman stores the type of data associated with this request in this field.
     #[serde(rename = "mode")]
     pub mode: Option<Mode>,
@@ -409,6 +412,34 @@ pub struct Body {
 
     #[serde(rename = "urlencoded")]
     pub urlencoded: Option<Vec<UrlEncodedParameter>>,
+}
+
+/// This field contains the request body options.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct BodyOptions {
+    pub raw: BodyOptionsRaw
+}
+
+/// This field contains the language in which the request body was written.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct BodyOptionsRaw {
+    pub language: Language
+}
+
+/// The language associated with the response.
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub enum Language {
+    #[serde(rename = "html")]
+    Html,
+
+    #[serde(rename = "javascript")]
+    Javascript,
+
+    #[serde(rename = "Text")]
+    Text,
+
+    #[serde(rename = "xml")]
+    Xml,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
