@@ -417,13 +417,13 @@ pub struct Body {
 /// This field contains the request body options.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct BodyOptions {
-    pub raw: BodyOptionsRaw
+    pub raw: Option<BodyOptionsRaw>
 }
 
 /// This field contains the language in which the request body was written.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct BodyOptionsRaw {
-    pub language: Language
+    pub language: Option<Language>
 }
 
 /// The language associated with the response.
