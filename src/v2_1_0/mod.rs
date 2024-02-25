@@ -432,8 +432,8 @@ pub enum Language {
     #[serde(rename = "html")]
     Html,
 
-    #[serde(rename = "javascript")]
-    Javascript,
+    #[serde(rename = "json")]
+    Json,
 
     #[serde(rename = "Text")]
     Text,
