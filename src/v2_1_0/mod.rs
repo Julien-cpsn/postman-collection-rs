@@ -390,7 +390,15 @@ pub struct RequestClass {
 
 /// This field contains the data usually contained in the request body.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
-pub struct Body {
+#[serde(untagged)]
+pub enum Body {
+    String(String),
+
+    BodyClass(BodyClass)
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+pub struct BodyClass {
     /// When set to true, prevents request body from being sent.
     #[serde(rename = "disabled")]
     pub disabled: Option<bool>,
