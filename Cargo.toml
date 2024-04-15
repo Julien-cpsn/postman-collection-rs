@@ -1,5 +1,5 @@
 [package]
-name = "postman_collection"
+name = "parse_postman_collection"
 version = "0.2.1"
 authors = ["Sebastian Mandrean <sebastian.mandrean@gmail.com>", "julien-cpsn"]
 description = "A Postman Collection serialization & deserialization library."
