@@ -359,6 +359,14 @@ pub struct ProtocolProfileBehavior {
     /// Disable body pruning for GET, COPY, HEAD, PURGE and UNLOCK request methods.
     #[serde(rename = "disableBodyPruning")]
     pub disable_body_pruning: Option<bool>,
+
+    /// Automatically follow redirects.
+    #[serde(rename = "followRedirects")]
+    pub follow_redirects: Option<bool>,
+
+    /// Disable cookie jar.
+    #[serde(rename = "disableCookies")]
+    pub disable_cookies: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
