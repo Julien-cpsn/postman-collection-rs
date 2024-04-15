@@ -1,6 +1,6 @@
 [package]
 name = "parse_postman_collection"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Sebastian Mandrean <sebastian.mandrean@gmail.com>", "julien-cpsn"]
 description = "A Postman Collection serialization & deserialization library."
 edition = "2021"
