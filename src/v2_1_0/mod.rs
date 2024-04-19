@@ -457,6 +457,9 @@ pub enum Language {
 
     #[serde(rename = "xml")]
     Xml,
+
+    #[serde(rename = "javascript")]
+    Javascript,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
